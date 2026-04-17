@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import './CityMap.css'
-import ShopBuilding from './buildings/ShopBuilding'
 import BankBuilding from './buildings/BankBuilding'
 import SchoolBuilding from './buildings/SchoolBuilding'
 import ArcadeBuilding from './buildings/ArcadeBuilding'
@@ -12,8 +11,28 @@ const bugLabels = {
   arcade: { title: 'Score Duplication', sub: 'Game Freeze • Input Delay' },
 }
 
-export default function CityMap({ bugsFixed: _bugsFixed, setBugsFixed: _setBugsFixed, totalBugs: _totalBugs }) {
+export default function CityMap({
+  bugsFixed: _bugsFixed,
+  setBugsFixed: _setBugsFixed,
+  totalBugs: _totalBugs,
+  onShopClick,
+  onSchoolClick,
+}) {
   const [active, setActive] = useState(null)
+
+  const handleShopClick = () => {
+    setActive(active === 'shop' ? null : 'shop')
+    if (onShopClick) {
+      onShopClick()
+    }
+  }
+
+  const handleSchoolClick = () => {
+    setActive(active === 'school' ? null : 'school')
+    if (onSchoolClick) {
+      onSchoolClick()
+    }
+  }
 
   return (
     <div className="city-map-wrapper">
@@ -64,7 +83,14 @@ export default function CityMap({ bugsFixed: _bugsFixed, setBugsFixed: _setBugsF
         <RoadWarning style={{ left: '54%', top: '62%' }} />
 
         <div className="building-slot shop-slot">
-          <ShopBuilding active={active === 'shop'} onClick={() => setActive(active === 'shop' ? null : 'shop')} />
+          <button
+            type="button"
+            className={`shop-image-button ${active === 'shop' ? 'active' : ''}`}
+            onClick={handleShopClick}
+            aria-label="Open Shop House"
+          >
+            <img src="/shop.png" alt="Shop building" className="shop-image" />
+          </button>
           <BugLabel data={bugLabels.shop} color="#f5c842" />
         </div>
 
@@ -74,7 +100,7 @@ export default function CityMap({ bugsFixed: _bugsFixed, setBugsFixed: _setBugsF
         </div>
 
         <div className="building-slot school-slot">
-          <SchoolBuilding active={active === 'school'} onClick={() => setActive(active === 'school' ? null : 'school')} />
+          <SchoolBuilding active={active === 'school'} onClick={handleSchoolClick} />
           <BugLabel data={bugLabels.school} color="#f5c842" />
         </div>
 

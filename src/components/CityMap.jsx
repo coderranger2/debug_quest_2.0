@@ -1,15 +1,5 @@
 import { useState } from 'react'
 import './CityMap.css'
-import BankBuilding from './buildings/BankBuilding'
-import SchoolBuilding from './buildings/SchoolBuilding'
-import ArcadeBuilding from './buildings/ArcadeBuilding'
-
-const bugLabels = {
-  shop: { title: 'Cart Bugs • Wrong Prices', sub: 'Missing Items' },
-  bank: { title: 'Lost Transactions', sub: 'UI Balance Mismatch • Race Conditions' },
-  school: { title: 'Quiz Logic Errors', sub: 'Progress Not Saved • Nav Bugs' },
-  arcade: { title: 'Score Duplication', sub: 'Game Freeze • Input Delay' },
-}
 
 export default function CityMap({
   bugsFixed: _bugsFixed,
@@ -50,10 +40,7 @@ export default function CityMap({
         </svg>
 
         <div className="fountain">
-          <div className="fountain-base">
-            <div className="fountain-water" />
-            <div className="fountain-center" />
-          </div>
+          <img src="/waterfall.png" alt="Waterfall" className="fountain-image" />
         </div>
 
         <Tree style={{ left: '4%', top: '12%' }} size="lg" />
@@ -76,6 +63,13 @@ export default function CityMap({
         <Tree style={{ left: '30%', top: '62%' }} size="sm" />
         <Tree style={{ left: '62%', top: '60%' }} size="sm" />
 
+        <Bench style={{ left: '46%', top: '12%' }} size="md" />
+        <Bench style={{ left: '31%', top: '66%' }} size="md" />
+        <Bench style={{ left: '64%', top: '64%' }} size="md" />
+        <Bench style={{ left: '24%', top: '86%' }} size="lg" />
+        <Bench style={{ left: '52%', top: '86%' }} size="lg" />
+        <Bench style={{ left: '76%', top: '86%' }} size="lg" />
+
         <Cone style={{ left: '48%', top: '68%' }} />
         <Cone style={{ left: '52%', top: '72%' }} />
         <Cone style={{ left: '36%', top: '50%' }} />
@@ -89,24 +83,41 @@ export default function CityMap({
             onClick={handleShopClick}
             aria-label="Open Shop House"
           >
-            <img src="/shop.png" alt="Shop building" className="shop-image" />
+            <img src="/new_shop.png" alt="Shop building" className="shop-image" />
           </button>
-          <BugLabel data={bugLabels.shop} color="#f5c842" />
         </div>
 
         <div className="building-slot bank-slot">
-          <BankBuilding active={active === 'bank'} onClick={() => setActive(active === 'bank' ? null : 'bank')} />
-          <BugLabel data={bugLabels.bank} color="#9ed2ff" right />
+          <button
+            type="button"
+            className={`bank-image-button ${active === 'bank' ? 'active' : ''}`}
+            onClick={() => setActive(active === 'bank' ? null : 'bank')}
+            aria-label="Open Bank District"
+          >
+            <img src="/bankkk.png" alt="Bank building" className="bank-image" />
+          </button>
         </div>
 
         <div className="building-slot school-slot">
-          <SchoolBuilding active={active === 'school'} onClick={handleSchoolClick} />
-          <BugLabel data={bugLabels.school} color="#f5c842" />
+          <button
+            type="button"
+            className={`school-image-button ${active === 'school' ? 'active' : ''}`}
+            onClick={handleSchoolClick}
+            aria-label="Open School House"
+          >
+            <img src="/school.png" alt="School building" className="school-image" />
+          </button>
         </div>
 
         <div className="building-slot arcade-slot">
-          <ArcadeBuilding active={active === 'arcade'} onClick={() => setActive(active === 'arcade' ? null : 'arcade')} />
-          <BugLabel data={bugLabels.arcade} color="#e78de8" right pink />
+          <button
+            type="button"
+            className={`arcade-image-button ${active === 'arcade' ? 'active' : ''}`}
+            onClick={() => setActive(active === 'arcade' ? null : 'arcade')}
+            aria-label="Open Arcade District"
+          >
+            <img src="/arcade.png" alt="Arcade building" className="arcade-image" />
+          </button>
         </div>
 
         <div className="river" />
@@ -117,24 +128,27 @@ export default function CityMap({
 }
 
 function Tree({ style, size }) {
-  const sizes = { sm: 28, md: 36, lg: 46 }
-  const s = sizes[size] || 36
+  const sizes = { sm: 40, md: 54, lg: 72 }
+  const s = sizes[size] || 38
+  return <img src="/tree.png" alt="" aria-hidden="true" className="tree" style={{ ...style, width: s, height: 'auto' }} />
+}
+
+function Bench({ style, size = 'md' }) {
+  const sizes = { sm: 24, md: 36, lg: 44 }
+  const s = sizes[size] || 26
   return (
-    <div className="tree" style={{ ...style, width: s, height: s * 1.2 }}>
-      <div className="tree-top" style={{ width: s, height: s, borderBottomWidth: s }} />
-      <div className="tree-trunk" style={{ width: s * 0.25, height: s * 0.3, left: s * 0.375 }} />
-    </div>
+    <img
+      src="/sitting_bench.png"
+      alt=""
+      aria-hidden="true"
+      className="bench"
+      style={{ ...style, width: s, height: 'auto', transform: 'translate(-50%, -50%)' }}
+    />
   )
 }
 
 function Cone({ style }) {
-  return (
-    <div className="traffic-cone" style={style}>
-      <div className="cone-top" />
-      <div className="cone-stripe" />
-      <div className="cone-base" />
-    </div>
-  )
+  return <img src="/capp.png" alt="" aria-hidden="true" className="traffic-cone" style={style} />
 }
 
 function RoadWarning({ style }) {
@@ -145,14 +159,3 @@ function RoadWarning({ style }) {
   )
 }
 
-function BugLabel({ data, color, right, pink }) {
-  return (
-    <div className={`bug-label ${right ? 'right' : 'left'} ${pink ? 'pink' : ''}`} style={{ borderColor: color }}>
-      <span className="bug-icon">🐛</span>
-      <div className="bug-text">
-        <div className="bug-title">{data.title}</div>
-        <div className="bug-sub">{data.sub}</div>
-      </div>
-    </div>
-  )
-}

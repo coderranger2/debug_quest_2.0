@@ -36,48 +36,17 @@
 .fountain {
   position: absolute;
   left: 50%;
-  top: 51%;
+  top: 50%;
   transform: translate(-50%, -50%);
   z-index: 5;
 }
 
-.fountain-base {
-  width: 56px;
-  height: 40px;
-  background: #1a6080;
-  border: 3px solid #0a3050;
-  border-radius: 0;
-  position: relative;
-  box-shadow: 2px 2px 0 #000;
-}
-
-.fountain-water {
-  position: absolute;
-  inset: 4px;
-  background: #2090b0;
-  animation: waterRipple 1.5s ease-in-out infinite;
-}
-
-@keyframes waterRipple {
-  0%,
-  100% {
-    background: #2090b0;
-  }
-
-  50% {
-    background: #30b0d0;
-  }
-}
-
-.fountain-center {
-  position: absolute;
-  left: 50%;
-  top: -12px;
-  transform: translateX(-50%);
-  width: 8px;
-  height: 16px;
-  background: #4abcd0;
-  border: 2px solid #0a3050;
+.fountain-image {
+  display: block;
+  width: 120px;
+  height: auto;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 2px 0 #00000066);
 }
 
 .river {
@@ -109,16 +78,9 @@
 }
 
 .shop-slot {
-  left: 8%;
-  top: 5%;
-  width: 26%;
-  padding-top: 44px;
-}
-
-.shop-slot .bug-label {
-  top: 0;
-  left: 2px;
-  z-index: 30;
+  left: 5%;
+  top: 4%;
+  width: 32%;
 }
 
 .shop-image-button {
@@ -134,91 +96,152 @@
 
 .shop-image-button:hover {
   transform: translateY(-4px);
-  filter: brightness(1.08);
 }
 
 .shop-image-button.active {
   transform: translateY(-6px);
-  filter: brightness(1.12) drop-shadow(0 0 12px #f5c84260);
+  filter: drop-shadow(0 0 12px #f5c84260);
 }
 
 .shop-image {
   display: block;
-  width: 100%;
+  width: 110%;
+  max-width: none;
+  margin-left: -5%;
   height: auto;
-  image-rendering: pixelated;
+  image-rendering: auto;
 }
 
 .bank-slot {
-  right: 8%;
-  top: 5%;
-  width: 22%;
+  right: 4%;
+  top: 4%;
+  width: 29%;
+}
+
+.bank-image-button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: block;
+  transition: transform 0.1s steps(2), filter 0.1s steps(2);
+}
+
+.bank-image-button:hover {
+  transform: translateY(-4px);
+}
+
+.bank-image-button.active {
+  transform: translateY(-6px);
+  filter: drop-shadow(0 0 12px #9ed2ff70);
+}
+
+.bank-image {
+  display: block;
+  width: 122%;
+  max-width: none;
+  margin-left: -11%;
+  height: auto;
+  image-rendering: auto;
 }
 
 .school-slot {
-  left: 5%;
-  bottom: 12%;
-  width: 22%;
+  left: 2%;
+  bottom: 7%;
+  width: 30%;
+}
+
+.school-image-button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: block;
+  transition: transform 0.1s steps(2), filter 0.1s steps(2);
+}
+
+.school-image-button:hover {
+  transform: translateY(-4px);
+}
+
+.school-image-button.active {
+  transform: translateY(-6px);
+  filter: drop-shadow(0 0 12px #f5c84270);
+}
+
+.school-image {
+  display: block;
+  width: 112%;
+  max-width: none;
+  margin-left: -6%;
+  height: auto;
+  image-rendering: auto;
 }
 
 .arcade-slot {
-  right: 7%;
-  bottom: 10%;
-  width: 23%;
+  right: 2%;
+  bottom: 6%;
+  width: 31%;
+}
+
+.arcade-image-button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: block;
+  transition: transform 0.1s steps(2), filter 0.1s steps(2);
+}
+
+.arcade-image-button:hover {
+  transform: translateY(-4px);
+}
+
+.arcade-image-button.active {
+  transform: translateY(-6px);
+  filter: drop-shadow(0 0 12px #e78de880);
+}
+
+.arcade-image {
+  display: block;
+  width: 110%;
+  max-width: none;
+  margin-left: -5%;
+  height: auto;
+  image-rendering: auto;
 }
 
 .tree {
   position: absolute;
   z-index: 4;
+  display: block;
+  pointer-events: none;
+  image-rendering: pixelated;
 }
 
-.tree-top {
+.bench {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-left: 18px solid transparent;
-  border-right: 18px solid transparent;
-  border-bottom: 36px solid #2d7a2d;
-}
-
-.tree-trunk {
-  position: absolute;
-  bottom: 0;
-  background: #5a3a1a;
-  border: 1px solid #3a1a00;
+  z-index: 7;
+  display: block;
+  pointer-events: none;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 2px 0 #00000099) contrast(1.08) saturate(1.12);
 }
 
 .traffic-cone {
   position: absolute;
   z-index: 6;
-  width: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-.cone-top {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 10px solid #e87820;
-}
-
-.cone-stripe {
-  width: 10px;
-  height: 3px;
-  background: #fff;
-}
-
-.cone-base {
-  width: 14px;
-  height: 4px;
-  background: #e87820;
-  border: 1px solid #000;
+  width: 26px;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  image-rendering: pixelated;
 }
 
 .road-warning {
@@ -241,67 +264,26 @@
   }
 }
 
-.bug-label {
-  position: absolute;
-  top: 35%;
-  background: #f6d78b;
-  border: 2px solid #f5c842;
-  padding: 6px 8px;
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  min-width: 170px;
-  max-width: 220px;
-  z-index: 20;
-  box-shadow: 2px 2px 0 #000;
-  pointer-events: none;
-}
-
-.bug-label.left {
-  left: 0;
-}
-
-.bug-label.right {
-  right: 0;
-}
-
-.bug-label.pink {
-  border-color: #e84090;
-  background: #e6a4df;
-}
-
-.bug-icon {
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-.bug-text {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.bug-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 6.5px;
-  color: #1d1600;
-  line-height: 1.4;
-}
-
-.bug-sub {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 5.5px;
-  color: #2f3155;
-  line-height: 1.4;
-}
-
 @media (max-width: 1200px) {
   .city-map {
     min-height: 500px;
   }
 
-  .building-slot {
-    width: 26%;
+  .shop-slot {
+    width: 35%;
+  }
+
+  .bank-slot {
+    right: 3%;
+    width: 32%;
+  }
+
+  .school-slot {
+    width: 33%;
+  }
+
+  .arcade-slot {
+    width: 34%;
   }
 
   .school-slot,
@@ -315,39 +297,27 @@
     min-height: 420px;
   }
 
-  .building-slot {
-    width: 30%;
-  }
-
   .shop-slot {
     left: 4%;
     top: 4%;
-    padding-top: 34px;
-  }
-
-  .shop-slot .bug-label {
-    top: 0;
-    left: 0;
+    width: 39%;
   }
 
   .bank-slot {
     right: 4%;
     top: 4%;
+    width: 36%;
   }
 
   .school-slot {
     left: 2%;
-    bottom: 8%;
+    bottom: 3%;
+    width: 37%;
   }
 
   .arcade-slot {
     right: 2%;
-    bottom: 8%;
-  }
-
-  .bug-label {
-    min-width: 140px;
-    max-width: 165px;
-    padding: 5px 6px;
+    bottom: 3%;
+    width: 38%;
   }
 }

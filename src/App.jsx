@@ -129,7 +129,7 @@ function App() {
           <div className="mb-1 flex justify-center px-1 sm:px-0">
             <FuzzyText
               color="#fb923c"
-              fontSize="clamp(1rem, 6.4vw, 3rem)"
+              fontSize="clamp(1.2rem, 6vw, 4.2rem)"
               baseIntensity={0.15}
               hoverIntensity={0.3}
               enableHover={true}

@@ -86,17 +86,19 @@ function App() {
             size={1}
           />
         </div>
-        <div className="relative z-10 text-center mix-blend-plus-lighter">
-          <BlurText
-            text="GET SET DEBUG."
-            delay={150}
-            animateBy="words"
-            direction="top"
-            className="mb-2 justify-center font-pixel tracking-[0.22em] text-5xl font-black text-purple-400 drop-shadow-[0_0_15px_rgba(192,132,252,0.7)] sm:text-7xl"
-          />
-          <p className="animate-pulse text-2xl font-bold tracking-[0.1em] text-purple-100 sm:text-3xl" style={{ animationDuration: '2s' }}>
-            The city awaits its fixers.
-          </p>
+        <div className="relative z-10 flex flex-col items-center justify-center w-full h-full min-h-[60vh] text-center mix-blend-plus-lighter p-0 m-0">
+          <div className="flex flex-col items-center justify-center w-full max-w-full p-0 m-0" style={{ marginLeft: '7vw' }}>
+            <BlurText
+              text="GET SET DEBUG."
+              delay={150}
+              animateBy="words"
+              direction="top"
+              className="mb-2 font-pixel tracking-[0.22em] text-5xl font-black text-purple-400 drop-shadow-[0_0_15px_rgba(192,132,252,0.7)] sm:text-7xl flex flex-col items-center justify-center text-center w-full max-w-full p-0 m-0"
+            />
+            <p className="animate-pulse text-2xl font-bold tracking-[0.1em] text-purple-100 sm:text-3xl mt-2 text-center w-full max-w-full p-0 m-0" style={{ animationDuration: '2s' }}>
+              The city awaits its fixers.
+            </p>
+          </div>
         </div>
       </main>
     )

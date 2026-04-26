@@ -8,8 +8,7 @@ const couponRates = {
 
 export function useDebugQuestShop() {
   const [search, setSearch] = useState('')
-  const [effectiveSearch, setEffectiveSearch] = useState('')
-  const [searchLocked, setSearchLocked] = useState(false)
+  
   const [activeCategory, setActiveCategory] = useState('')
   const [sortDirection, setSortDirection] = useState('asc')
   const [page, setPage] = useState(1)
@@ -56,7 +55,7 @@ export function useDebugQuestShop() {
   const pageSize = 8
 
   const filteredProducts = useMemo(() => {
-    const needle = effectiveSearch.trim().toLowerCase()
+    const needle = search.trim().toLowerCase()
     const result = products.filter((item) => {
       const inCategory = !activeCategory || item.category === activeCategory
       const inSearch = !needle || item.name.toLowerCase().includes(needle)
@@ -65,7 +64,7 @@ export function useDebugQuestShop() {
 
     result.sort((a, b) => (sortDirection === 'asc' ? b.price - a.price : a.price - b.price))
     return result
-  }, [activeCategory, effectiveSearch, sortDirection])
+  }, [activeCategory, search, sortDirection])
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize))
 
@@ -168,12 +167,7 @@ export function useDebugQuestShop() {
     setSearch(value)
     setPage(1)
 
-    if (!searchLocked) {
-      setEffectiveSearch(value)
-      if (value.trim().length > 0) {
-        setSearchLocked(true)
-      }
-    }
+    
   }
 
   const onCategoryChange = (category) => {

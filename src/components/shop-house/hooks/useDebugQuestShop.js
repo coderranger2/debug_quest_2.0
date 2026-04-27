@@ -20,14 +20,6 @@ export function useDebugQuestShop() {
       return []
     }
   })
-  const [lockedAdd, setLockedAdd] = useState(() => {
-    try {
-      const temp = JSON.parse(localStorage.getItem('shop_cart')) || []
-      return temp.map((i) => i.id)
-    } catch {
-      return []
-    }
-  })
   const [couponInput, setCouponInput] = useState('')
   const [couponCode, setCouponCode] = useState('')
   const [couponError, setCouponError] = useState('')
@@ -115,7 +107,6 @@ export function useDebugQuestShop() {
   }, [cart])
 
   const wishlistSet = new Set(wishlist)
-  const lockedAddSet = new Set(lockedAdd)
 
   const cartItems = useMemo(() => {
     const joined = cart
@@ -191,10 +182,6 @@ export function useDebugQuestShop() {
         return [...previous, { rowId: rowCounterRef.current++, id: product.id, _vIdx: visibleIndex, qty: 1, billedQty: 1 }]
       })
     }, 40)
-
-    window.setTimeout(() => {
-      setLockedAdd((previous) => (previous.includes(product.id) ? previous : [...previous, product.id]))
-    }, 90)
   }
 
   const changeQty = (rowId, delta) => {
@@ -295,7 +282,6 @@ export function useDebugQuestShop() {
     pagedProducts: renderedProducts,
     isLoadingProducts,
     wishlistSet,
-    lockedAddSet,
     cartItems,
     couponInput,
     couponCode,

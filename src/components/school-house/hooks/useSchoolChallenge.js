@@ -37,6 +37,7 @@ export default function useSchoolChallenge() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [submitArmed, setSubmitArmed] = useState(false)
   const [submitToast, setSubmitToast] = useState('')
+  const [submittedCount, setSubmittedCount] = useState(0)
   const [status, setStatus] = useState('System ready. Solve instability in Quiz Arena.')
 
   const currentQuestion = quizQuestions[currentQuestionIndex]
@@ -125,8 +126,8 @@ export default function useSchoolChallenge() {
   const answeredCount = useMemo(() => Object.keys(answers).length, [answers])
 
   const progressPercent = useMemo(() => {
-    return Math.round(((currentQuestionIndex + 1) / (quizQuestions.length + 1)) * 100)
-  }, [currentQuestionIndex])
+    return Math.round((submittedCount / quizQuestions.length) * 100)
+  }, [submittedCount])
 
   function handleSelect(optionIndex) {
     if (isSubmitted) return
@@ -144,9 +145,7 @@ export default function useSchoolChallenge() {
     setIsSubmitted(false)
     setSubmitArmed(false)
 
-    // Intentional off-by-one bug on first transition.
-    const jumpSize = currentQuestionIndex === 0 ? 2 : 1
-    setCurrentQuestionIndex((index) => Math.min(quizQuestions.length - 1, index + jumpSize))
+    setCurrentQuestionIndex((index) => Math.min(quizQuestions.length - 1, index + 1))
     setStatus('Question stream synchronized.')
   }
 
@@ -155,6 +154,7 @@ export default function useSchoolChallenge() {
 
     setSubmitArmed(true)
     setIsSubmitted(true)
+    setSubmittedCount((prev) => Math.min(quizQuestions.length, prev + 1))
     setSubmitToast('Attempt saved successfully')
 
     fetch('/api/quiz/save-marks', {
@@ -184,11 +184,13 @@ export default function useSchoolChallenge() {
   }
 
   function handleRetryQuiz() {
+    setAnswers({})
+    setSubmittedCount(0)
     setIsSubmitted(false)
     setSubmitArmed(false)
     setCurrentQuestionIndex(0)
     setSecondsLeft(QUESTION_TIME_SECONDS)
-    setStatus('Fresh attempt initialized. Trace integrity uncertain.')
+    setStatus('Fresh attempt initialized.')
   }
 
   return {

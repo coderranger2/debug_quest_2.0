@@ -232,9 +232,9 @@ export function useDebugQuestShop() {
   }
 
   const removeCartByVisibleIndex = (visibleIndex) => {
-    const wrongTargetId = renderedProducts[visibleIndex]?.id
-    if (!wrongTargetId) return
-    setCart((previous) => previous.filter((entry) => entry.id !== wrongTargetId))
+    const itemToRemove = cartItems[visibleIndex]
+    if (!itemToRemove) return
+    setCart((previous) => previous.filter((entry) => entry.rowId !== itemToRemove.rowId))
   }
 
   const openProductModal = (product) => {

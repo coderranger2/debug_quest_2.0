@@ -62,9 +62,6 @@ export function useDebugQuestShop() {
 
   const dataPage = useMemo(() => {
     const safePage = Math.min(page, totalPages)
-    if (safePage === 3) {
-      return 2
-    }
     return safePage
   }, [page, totalPages])
 

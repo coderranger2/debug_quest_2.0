@@ -48,8 +48,7 @@ export default function useStudentRecordsChallenge() {
 
   useEffect(() => {
     // Intentional stale class request bug: request uses previous class value.
-    setRequestClass(selectedClass)
-
+    const classForRequest = selectedClass
     setIsSyncing(true)
     const params = new URLSearchParams()
     params.set('query', committedQuery)

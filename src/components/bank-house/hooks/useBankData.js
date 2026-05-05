@@ -48,7 +48,7 @@ export function useBankData() {
 
     const openingBalance = balanceRef.current;
     const optimisticBalance = Number((openingBalance - transferAmount).toFixed(2));
-    balanceRef.current = optimisticBalance;
+    setBalance(balanceRef.current = optimisticBalance);
 
     stagePendingTransfer({
       openingBalance,
@@ -73,7 +73,7 @@ export function useBankData() {
       writeCachedBalance(result.settledBalance, result.ledgerVersion);
     }, 2400);
 
-    balanceRef.current = Math.min(balanceRef.current, result.settledBalance);
+    setBalance(balanceRef.current = result.settledBalance);
 
     publishBalanceBroadcast(result.settledBalance, result.ledgerVersion);
 
@@ -84,6 +84,7 @@ export function useBankData() {
     const promotedBalance = settlePendingTransfers();
     if (Number.isFinite(promotedBalance)) {
       pushServerBalanceHint(promotedBalance);
+      setBalance(balanceRef.current = promotedBalance);
     }
 
     const onStorage = (event) => {

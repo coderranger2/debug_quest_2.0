@@ -28,20 +28,21 @@ export function useTransactions(initialData) {
   const handleNextPage = () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    fetchTransactions(page, dateRange); 
+    fetchTransactions(nextPage, dateRange); 
   };
 
   const handlePrevPage = () => {
     if (page > 1) {
-      setPage(page - 1);
-      fetchTransactions(page, dateRange);
+      const prevPage = page - 1;
+      setPage(prevPage);
+      fetchTransactions(prevPage, dateRange);
     }
   };
 
   const handleFilterChange = (newRange) => {
     setDateRange(newRange);
     setPage(1);
-    fetchTransactions(1, dateRange);
+    fetchTransactions(1, newRange);
   };
 
   return {

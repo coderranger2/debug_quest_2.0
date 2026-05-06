@@ -26,24 +26,24 @@ export function useTransactions(initialData) {
   };
 
   const handleNextPage = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-    fetchTransactions(nextPage, dateRange); 
-  };
+  const nextPage = page + 1
+  setPage(nextPage)
+  fetchTransactions(nextPage, dateRange)
+}
 
-  const handlePrevPage = () => {
-    if (page > 1) {
-      const prevPage = page - 1;
-      setPage(prevPage);
-      fetchTransactions(prevPage, dateRange);
-    }
-  };
+const handlePrevPage = () => {
+  if (page > 1) {
+    const prevPage = page - 1
+    setPage(prevPage)
+    fetchTransactions(prevPage, dateRange)
+  }
+}
 
-  const handleFilterChange = (newRange) => {
-    setDateRange(newRange);
-    setPage(1);
-    fetchTransactions(1, newRange);
-  };
+const handleFilterChange = (newRange) => {
+  setDateRange(newRange)
+  setPage(1)
+  fetchTransactions(1, newRange)
+}
 
   return {
     data,

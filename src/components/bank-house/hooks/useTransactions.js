@@ -18,10 +18,10 @@ export function useTransactions(initialData) {
       const filtered = initialData.filter(() => true); // Simplistic filter just for demonstration
       const start = (pageToFetch - 1) * 3;
       setData(filtered.slice(start, start + 3));
-      
-      setLoading(false);
     } catch (err) {
       console.error('Data fetch error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 

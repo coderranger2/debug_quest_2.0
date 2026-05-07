@@ -12,14 +12,8 @@ export default function BeneficiariesPanel({ beneficiaries, onSelectBeneficiary 
       return;
     }
 
-    // Bug 6: Use cached matching array from first search, ignoring subsquent searches
-    if (cachedSearch.current) {
-      setFiltered(cachedSearch.current);
-    } else {
-      const res = beneficiaries.filter(b => b.name.toLowerCase().includes(search.toLowerCase()));
-      cachedSearch.current = res; 
-      setFiltered(res);
-    }
+    const res = beneficiaries.filter(b => b.name.toLowerCase().includes(search.toLowerCase()));
+    setFiltered(res);
   }, [search, beneficiaries]);
 
   return (

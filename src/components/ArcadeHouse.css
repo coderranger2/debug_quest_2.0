@@ -622,10 +622,6 @@
   color: #c8f3ff;
 }
 
-.dark-mode .score-value {
-  color: #0d1225;
-}
-
 .health-pill {
   display: inline-flex;
   align-items: center;

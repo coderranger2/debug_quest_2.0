@@ -99,9 +99,16 @@ export default function ArcadeHouse({ onBack }) {
   const [score, setScore] = useState(3180)
   const [health, setHealth] = useState(82)
   const [xp, setXp] = useState(68)
+  
   const [streak, setStreak] = useState(5)
   const highScoreLabel = 'High Score: 8,480'
   const rapidJumpRef = useRef([])
+  const jumpLock = useRef(false); // Our physical lock
+const arcadeState = useRef({ isJumping, controlsLocked });
+arcadeState.current = { isJumping, controlsLocked };
+
+  
+
 
   const filteredCards = useArcadeSearch(gameCards, search)
   const { leaderboard, players, isConnected, reconnectCount, leaveArena, reconnectArena } = useArcadeRealtime(score)
@@ -142,50 +149,45 @@ export default function ArcadeHouse({ onBack }) {
     return () => clearInterval(ticker)
   }, [isPaused])
 
+  
   useEffect(() => {
-    const keyboardHandler = (event) => {
-      if (controlsLocked) {
-        return
-      }
+  const handleKeyDown = (e) => {
+    if (arcadeState.current.controlsLocked) return;
 
-      if (event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a') {
-        setPlayerX((prev) => clamp(prev - 4, 0, 88))
-      }
+    // Movement
+    if (e.key === 'a' || e.key === 'ArrowLeft') setPlayerX(p => Math.max(0, p - 4));
+    if (e.key === 'd' || e.key === 'ArrowRight') setPlayerX(p => Math.min(88, p + 4));
 
-      if (event.key === 'ArrowRight' || event.key.toLowerCase() === 'd') {
-        setPlayerX((prev) => clamp(prev + 4, 0, 88))
-      }
-
-      if (event.key === ' ' || event.key.toLowerCase() === 'w' || event.key === 'ArrowUp') {
-        event.preventDefault()
-        if (!isJumping) {
-          setIsJumping(true)
-          setJumpTick(6)
-          setScore((prev) => prev + 35)
-          setXp((prev) => clamp(prev + 1, 0, 100))
-        }
-      }
+    // Jump - Point directly to our locked function
+    if (e.key === ' ' || e.key === 'w' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      onJump(); 
     }
+  };
 
-    window.addEventListener('keydown', keyboardHandler)
-    return () => window.removeEventListener('keydown', keyboardHandler)
-  }, [isJumping, controlsLocked])
+  window.addEventListener('keydown', handleKeyDown);
+  return () => window.removeEventListener('keydown', handleKeyDown);
+}, []); // Empty array = listener never dies, never lags
 
   useEffect(() => {
-    if (!isJumping || jumpTick <= 0) {
-      if (jumpTick <= 0) {
-        setIsJumping(false)
-      }
-      return
+  if (!isJumping || jumpTick <= 0) {
+    if (isJumping) {
+      setIsJumping(false);
+      // This is the ONLY place the lock is released
+      setTimeout(() => { jumpLock.current = false; }, 10); 
     }
+    return;
+  }
 
-    const timer = setTimeout(() => setJumpTick((prev) => prev - 1), 55)
-    return () => clearTimeout(timer)
-  }, [isJumping, jumpTick])
+  const timer = setTimeout(() => setJumpTick(t => t - 1), 50);
+  return () => clearTimeout(timer);
+}, [isJumping, jumpTick]);
 
   const jumpOffset = isJumping ? Math.max(0, Math.sin((jumpTick / 6) * Math.PI) * 56) : 0
 
   const playCard = (reward) => {
+    setIsJumping(false);
+  setJumpTick(0);
     setCoins((prev) => prev + reward)
     setScore((prev) => prev + reward)
     setXp((prev) => clamp(prev + 4, 0, 100))
@@ -205,20 +207,20 @@ export default function ArcadeHouse({ onBack }) {
   }
 
   const onJump = () => {
-    const now = Date.now()
-    rapidJumpRef.current = [...rapidJumpRef.current.filter((ts) => now - ts < 1200), now]
+  // 1. Check the physical lock immediately
+  // We use the arcadeState ref to see if controls are locked globally
+  if (jumpLock.current || arcadeState.current.controlsLocked) return;
 
-    if (rapidJumpRef.current.length > 4) {
-      setControlsLocked(true)
-      return
-    }
+  // 2. Lock the gate synchronously
+  // This happens in nanoseconds, blocking any other clicks that arrive 
+  // before the next render.
+  jumpLock.current = true; 
 
-    if (!isJumping && !controlsLocked) {
-      setIsJumping(true)
-      setJumpTick(6)
-      setScore((prev) => prev + 28)
-    }
-  }
+  // 3. Trigger the physics and state updates
+  setIsJumping(true);
+  setJumpTick(6);
+  setScore((prev) => prev + 28);
+};
 
   return (
     <main className={`arcade-shell ${darkMode ? 'dark-mode' : ''}`}>

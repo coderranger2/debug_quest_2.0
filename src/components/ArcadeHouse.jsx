@@ -123,7 +123,7 @@ export default function ArcadeHouse({ onBack }) {
   }, [coins])
 
   useEffect(() => {
-    if (isPaused) {
+    if (isPaused || !gameStarted) {
       return
     }
 
@@ -140,7 +140,7 @@ export default function ArcadeHouse({ onBack }) {
     }, 900)
 
     return () => clearInterval(ticker)
-  }, [isPaused])
+  }, [isPaused, gameStarted])
 
   useEffect(() => {
     const keyboardHandler = (event) => {

@@ -17,7 +17,7 @@ export function fetchLeaderboardSnapshot(playerScore) {
     setTimeout(() => {
       const rows = [
         ...basePlayers.map((item) => ({ ...item, score: jitter(item.score, 300) })),
-        { id: 'you', name: 'You', score: playerScore },
+       
       ]
 
       submissions.slice(-3).forEach((entry, index) => {
@@ -31,5 +31,8 @@ export function fetchLeaderboardSnapshot(playerScore) {
 }
 
 export function submitScore(name, score) {
-  submissions.push({ name, score, at: Date.now() })
+  submissions = submissions.filter((entry) => entry.name !==name)
+ submissions.push({
+  name, score, at: Date.now(),
+ })
 }

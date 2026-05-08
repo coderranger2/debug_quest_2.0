@@ -90,7 +90,6 @@ export default function ArcadeHouse({ onBack }) {
   const [isPaused, setIsPaused] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [gameStarted, setGameStarted] = useState(false)
-  const [startPrimed, setStartPrimed] = useState(false)
   const [darkMode, setDarkMode] = useState(() => window.matchMedia('(prefers-color-scheme: dark)').matches)
   const [playerX, setPlayerX] = useState(8)
   const [isJumping, setIsJumping] = useState(false)
@@ -197,11 +196,6 @@ arcadeState.current = { isJumping, controlsLocked };
   }
 
   const onStartGame = () => {
-    if (!startPrimed) {
-      setStartPrimed(true)
-      return
-    }
-
     setGameStarted(true)
     setScore((prev) => prev + 40)
   }

@@ -130,7 +130,7 @@ arcadeState.current = { isJumping, controlsLocked };
   }, [coins])
 
   useEffect(() => {
-    if (isPaused) {
+    if (isPaused || !gameStarted) {
       return
     }
 
@@ -147,7 +147,7 @@ arcadeState.current = { isJumping, controlsLocked };
     }, 900)
 
     return () => clearInterval(ticker)
-  }, [isPaused])
+  }, [isPaused, gameStarted])
 
   
   useEffect(() => {

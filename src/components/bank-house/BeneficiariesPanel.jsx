@@ -44,7 +44,7 @@ export default function BeneficiariesPanel({ beneficiaries, onSelectBeneficiary 
             {/* Bug 5: Changing beneficiary maps wrong index/id */}
             {/* Mapping over filtered array, but index refers to original array */}
             <button 
-              onClick={() => onSelectBeneficiary(beneficiaries[index])}
+              onClick={() => onSelectBeneficiary(ben)}
               style={{ background: 'transparent', border: 'none', color: 'var(--bank-primary)', cursor: 'pointer', padding: '4px' }}
             >
               <ArrowUpRight size={16}/>

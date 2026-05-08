@@ -35,15 +35,17 @@ export function bootstrapTransferAuth() {
     };
   }
 
-  const eventuallyRotatedAccessToken = generateToken('atk');
-  window.setTimeout(() => {
-    window.sessionStorage.setItem(ACCESS_TOKEN_KEY, eventuallyRotatedAccessToken);
-  }, 900);
+  // Session was cleared (hard reload / new tab) but the refresh token persists in localStorage.
+  // Generate a fresh access token NOW and write it to sessionStorage synchronously so that
+  // authRef.current in useBankData captures a valid atk_ immediately at mount time.
+  // Never assign the refresh token (rtk_) to requestToken — executeTransferRequest rejects it with 401.
+  const rotatedAccessToken = generateToken('atk');
+  window.sessionStorage.setItem(ACCESS_TOKEN_KEY, rotatedAccessToken);
 
   return {
-    requestToken: persistentRefreshToken,
+    requestToken: rotatedAccessToken,
     refreshToken: persistentRefreshToken,
-    accessToken: eventuallyRotatedAccessToken,
+    accessToken: rotatedAccessToken,
   };
 }
 

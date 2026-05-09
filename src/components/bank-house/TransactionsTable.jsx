@@ -16,9 +16,11 @@ export default function TransactionsTable({ allTransactions }) {
     page,
     loading,
     dateRange,
+    searchTerm,       
     handleNextPage,
     handlePrevPage,
-    handleFilterChange
+    handleFilterChange,
+    handleSearchChange
   } = useTransactions(allTransactions);
 
   return (
@@ -28,7 +30,12 @@ export default function TransactionsTable({ allTransactions }) {
         <div className="table-actions">
           <div className="bank-search">
             <Search size={16} />
-            <input type="text" placeholder="Search Ledgers..." />
+            <input 
+              type="text" 
+              placeholder="Search Ledgers..." 
+              value={searchTerm}
+              onChange={(e) => handleSearchChange(e.target.value)}
+            />
           </div>
           <div className="filter-dropdown">
             <select 

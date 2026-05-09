@@ -1,32 +1,33 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { ShieldCheck, Send } from 'lucide-react';
 
 export default function TransferVault({ balance, beneficiaries, onTransfer, selectedBeneficiary, setSelectedBeneficiary }) {
   const [amount, setAmount] = useState('');
   const [toast, setToast] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const transferLockRef = useRef(false);
 
   const handleTransfer = async () => {
-    if (!amount || !selectedBeneficiary || isSubmitting) return;
+    if (!amount || !selectedBeneficiary) return;
 
-    window.setTimeout(() => {
-      setIsSubmitting(true);
-    }, 0);
+    // Synchronous ref guard — blocks concurrent calls that fire before React
+    // re-renders the isSubmitting state (e.g. rapid double-clicks).
+    if (transferLockRef.current) return;
+    transferLockRef.current = true;
+    setIsSubmitting(true);
 
     setToast('Transfer Initiated - Processing...');
-    
-    setTimeout(() => {
-      setToast('Transfer Successful!');
-      setTimeout(() => setToast(null), 3500);
-    }, 400);
 
     try {
       await onTransfer(parseFloat(amount), selectedBeneficiary);
       setAmount('');
+      setToast('Transfer Successful!');
+      setTimeout(() => setToast(null), 3500);
+    } catch {
+      setToast(null);
     } finally {
-      setTimeout(() => {
-        setIsSubmitting(false);
-      }, 250);
+      transferLockRef.current = false;
+      setIsSubmitting(false);
     }
   };
 
@@ -79,7 +80,13 @@ export default function TransferVault({ balance, beneficiaries, onTransfer, sele
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <button className="max-btn" onClick={() => setAmount(balance.toString())}>MAX</button>
+           <button
+  className="max-btn"
+  onClick={() => setAmount(balance.toString())}
+  disabled={isSubmitting}
+>
+  MAX
+</button>
           </div>
         </div>
         <button className="bank-btn primary-btn w-full flex items-center justify-center gap-2" style={{ marginTop: '1rem' }} onClick={handleTransfer} disabled={isSubmitting}>

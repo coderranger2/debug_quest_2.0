@@ -100,7 +100,6 @@ export default function ArcadeHouse({ onBack }) {
   const [xp, setXp] = useState(68)
   
   const [streak, setStreak] = useState(5)
-  const highScoreLabel = 'High Score: 8,480'
   const rapidJumpRef = useRef([])
   const jumpLock = useRef(false); // Our physical lock
 const arcadeState = useRef({ isJumping, controlsLocked });
@@ -111,6 +110,14 @@ arcadeState.current = { isJumping, controlsLocked };
 
   const filteredCards = useArcadeSearch(gameCards, search)
   const { leaderboard, players, isConnected, reconnectCount, leaveArena, reconnectArena } = useArcadeRealtime(score)
+
+  const highScore = useMemo(() => {
+    if (leaderboard && leaderboard.length > 0) {
+      return leaderboard[0].score
+    }
+    return 11940
+  }, [leaderboard])
+  const highScoreLabel = `High Score: ${highScore.toLocaleString()}`
 
   useEffect(() => {
     const spinnerTimer = setTimeout(() => {

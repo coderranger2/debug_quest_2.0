@@ -400,7 +400,7 @@ arcadeState.current = { isJumping, controlsLocked };
                     <Pause size={14} /> {isPaused ? 'Resume' : 'Pause'}
                   </button>
                   <button type="button" className="btn-ghost" onClick={() => setSoundOn((prev) => !prev)}>
-                    {soundOn ? <VolumeX size={14} /> : <Volume2 size={14} />} {soundOn ? 'Sound On' : 'Muted'}
+                    {soundOn ? <Volume2 size={14} /> : <VolumeX size={14} />} {soundOn ? 'Sound On' : 'Muted'}
                   </button>
                 </div>
               </article>

@@ -382,10 +382,12 @@ arcadeState.current = { isJumping, controlsLocked };
                 <div className="game-screen" role="img" aria-label="Mini platformer area">
                   <div className="scanlines" />
                   <div className="platform" />
-                  <div
-                    className="player-sprite"
-                    style={{ left: `${playerX}%`, bottom: `${16 + jumpOffset}px` }}
-                  />
+                  {isConnected && (
+                    <div
+                      className="player-sprite"
+                      style={{ left: `${playerX}%`, bottom: `${16 + jumpOffset}px` }}
+                    />
+                  )}
                   <div className="enemy enemy-a" />
                   <div className="enemy enemy-b" />
                 </div>

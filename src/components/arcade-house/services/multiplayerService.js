@@ -9,9 +9,7 @@ export function getRoomPlayers() {
 }
 
 export function leaveRoom(playerId) {
-  roomPlayers = roomPlayers.map((player) =>
-    player.id === playerId ? { ...player, connected: false } : player,
-  )
+  roomPlayers = roomPlayers.filter((player) => player.id !== playerId)
   return roomPlayers
 }
 

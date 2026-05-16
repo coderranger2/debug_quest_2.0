@@ -91,6 +91,17 @@ export default function ArcadeHouse({ onBack }) {
   const [isLoading, setIsLoading] = useState(true)
   const [gameStarted, setGameStarted] = useState(false)
   const [darkMode, setDarkMode] = useState(() => window.matchMedia('(prefers-color-scheme: dark)').matches)
+  useEffect(() => {
+  const root = document.documentElement;
+
+  root.classList.remove('dark-mode', 'light-mode');
+
+  if (darkMode) {
+    root.classList.add('dark-mode');
+  } else {
+    root.classList.add('light-mode');
+  }
+}, [darkMode]);
   const [playerX, setPlayerX] = useState(8)
   const [isJumping, setIsJumping] = useState(false)
   const [jumpTick, setJumpTick] = useState(0)
